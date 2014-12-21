@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>Wake On Lan</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h:outputText value="Welcome to the wake-on-lan application"/>
+        <h:form id="selector">
+            <h:panelGrid columns="2">
+                <h:outputText value="Suggested MACs" />
+                <h:selectOneListbox value="#{wakeUp.selectedMac}"  >
+                    <f:selectItems value="#{wakeUp.macAddresses}"/>
+                </h:selectOneListbox>
+                <h:outputText value="Destination IP"/>
+                <h:inputText value="#{wakeUp.ipAddr}"/>
+            </h:panelGrid>
+            <h:commandButton value="Wake it up!" action="#{wakeUp.doWakeUp}"/>
+        </h:form>
+    </h:body>
+</html>
