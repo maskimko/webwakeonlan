@@ -12,10 +12,10 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/faces/*</url-pattern>
+        <url-pattern>/wol/*</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>faces/hello.xhtml</welcome-file>
+        <welcome-file>wol/hello.xhtml</welcome-file>
     </welcome-file-list>
     <context-param>
         <param-name>javax.faces.PRJECT_STAGE</param-name>

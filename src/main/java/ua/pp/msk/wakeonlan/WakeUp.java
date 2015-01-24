@@ -44,19 +44,19 @@ public class WakeUp {
         return availableMacAddrs;
     }
 
-    public String getIpAddr() {
+    public String getIpAddress() {
         return ipAddr;
     }
 
-    public String getSelectedMac() {
+    public String getMacAddress() {
         return selectedMac;
     }
     
     public String doWakeUp(){
-        String result = "failure";
+        String result = "doesNotSent";
         try {
         wkr.doWakeOnLan(ipAddr, selectedMac);
-        result = "success";
+        result = "sent";
         } catch (WakeException we) {
         }
         return result;

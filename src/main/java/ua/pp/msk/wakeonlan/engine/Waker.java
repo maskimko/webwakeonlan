@@ -8,6 +8,7 @@ package ua.pp.msk.wakeonlan.engine;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.log4j.Logger;
 import ua.pp.msk.WakeOnLan;
@@ -26,7 +27,7 @@ public class Waker {
         WakeOnLan wol = new WakeOnLan();        
         try {
             InetAddress ip = InetAddress.getByName(address);
-            wol.wakeOnLan(null, mac);
+            wol.wakeOnLan(ip, mac);
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(Waker.class.getName()).error("Cannot process arguments " + address + " " + mac, ex);
             throw new WakeException("Cannot process arguments " + address + " " + mac, ex);
@@ -41,9 +42,12 @@ public class Waker {
         List<String> macs = new ArrayList<>();
         ArpTableInformation ati = new ArpTableInformationImpl();
         List<ArpTableRecord> arpTable = ati.getArpTable();
+        final byte[] incomplete = new byte[]{0,0,0,0,0,0};
         for (ArpTableRecord atr: arpTable) {
             byte[] hwAddress = atr.getHwAddress();
-            macs.add(Converter.macToString(hwAddress));
+            if (!Arrays.equals(hwAddress, incomplete)) {
+                macs.add(Converter.macToString(hwAddress));
+            }
         }
         return macs;
     }

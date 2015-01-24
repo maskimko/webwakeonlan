@@ -13,5 +13,17 @@ and open the template in the editor.
     </h:head>
     <h:body>
         <h:outputText value="#{helloWorldBean.msg}"/>
+        <br/>
+        <hr/>
+        <li/>
+        <h:link outcome="wakeUp.xhtml" >
+            <h:outputText value="Go to wake-on-lan"/>
+        </h:link>
+        <li/><h:link value="http://silhouete.kyi.msk:8080/IpExposer">
+            <h:outputText value="Your IP address"/>
+        </h:link>
+        <li/><h:link value="http://silhouette.kyi.msk:8080/IpExposer?full=true">
+            <h:outputText value="Show http request details"/>
+        </h:link>
     </h:body>
 </html>

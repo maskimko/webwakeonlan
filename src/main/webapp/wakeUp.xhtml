@@ -7,23 +7,34 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" 
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Wake On Lan</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        <h:outputText value="Welcome to the wake-on-lan application"/>
+        
         <h:form id="selector">
+            <p:layout>
+                <p:layoutUnit position="north">
+                    <h:outputText value="Welcome to the wake-on-lan application"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="west">
             <h:panelGrid columns="2">
                 <h:outputText value="Suggested MACs" />
-                <h:selectOneListbox value="#{wakeUp.selectedMac}"  >
+                <h:selectOneListbox value="#{wakeUp.macAddress}"  >
                     <f:selectItems value="#{wakeUp.macAddresses}"/>
                 </h:selectOneListbox>
                 <h:outputText value="Destination IP"/>
-                <h:inputText value="#{wakeUp.ipAddr}"/>
+                <h:inputText value="#{wakeUp.ipAddress}"/>
             </h:panelGrid>
             <h:commandButton value="Wake it up!" action="#{wakeUp.doWakeUp}"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+                    
+                </p:layoutUnit>
+        </p:layout>
         </h:form>
     </h:body>
 </html>
