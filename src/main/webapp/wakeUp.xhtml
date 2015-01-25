@@ -32,7 +32,12 @@ and open the template in the editor.
             <h:commandButton value="Wake it up!" action="#{wakeUp.doWakeUp}"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
-                    
+                    <p:outputLabel rendered="#{empty wakeUp.devices}" value="#{messages.emptyDeviceList}"/>
+                    <p:dataGrid columns="4" rows="2" value="#{wakeUp.devices}" var="device" rendered="#{not empty wakeUp.devices}">
+                        <p:panel header="#{device.name}">
+                            <p:outputLabel value="1"/>
+                        </p:panel>
+                    </p:dataGrid>
                 </p:layoutUnit>
         </p:layout>
         </h:form>

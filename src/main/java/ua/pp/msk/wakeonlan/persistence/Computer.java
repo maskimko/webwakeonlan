@@ -44,7 +44,19 @@ public class Computer implements Serializable {
     private String name;
     private String user;
     private String password;
+    private String identity;
 
+    public Computer() {
+    }
+
+    public Computer(String ipAddress, String macAddress, String name) {
+        this.ipAddress = ipAddress;
+        this.macAddress = macAddress;
+        this.name = name;
+    }
+
+    
+    
     public Long getId() {
         return id;
     }
@@ -57,6 +69,15 @@ public class Computer implements Serializable {
         return ipAddress;
     }
 
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
+    }
+
+    
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }

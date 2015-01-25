@@ -19,24 +19,39 @@ import javax.persistence.Query;
 public class DeviceManager {
 
     private static EntityManagerFactory emf;
-    private static EntityManager em; 
+    private static EntityManager em;
+    private static DeviceManager dm;
+
+    public static DeviceManager getDeviceManager(){
+        if (dm == null){
+            synchronized(DeviceManager.class){
+                if (dm == null){
+                    dm = new DeviceManager();
+                }
+            }
+        }
+        return dm;
+    }
     
-    public DeviceManager() {
+    private DeviceManager() {
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("sqlitePU");
         }
-            em = emf.createEntityManager();
+        em = emf.createEntityManager();
     }
-    
-    public List<Computer> getComputers(){
+
+    public List<Computer> getComputers() {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         Query allComputerQuery = em.createNamedQuery("findAllComputers", Computer.class);
         List<Computer> resultList = allComputerQuery.getResultList();
         return resultList;
     }
-    
-    public void addComputer(Computer comp){
-        //Continue here
+
+    public void addComputer(Computer comp) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.persist(comp);
+        transaction.commit();
     }
 }

@@ -5,11 +5,12 @@
     <class>ua.pp.msk.wakeonlan.persistence.Computer</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.SQLiteDialect"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:/home/maskimko/JavaEE_Workspace/wakeonlan.db"/>
       <property name="javax.persistence.jdbc.user" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
       <property name="javax.persistence.jdbc.password" value=""/>
-      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
