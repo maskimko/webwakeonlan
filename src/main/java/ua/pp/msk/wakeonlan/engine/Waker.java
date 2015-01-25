@@ -39,7 +39,7 @@ public class Waker {
     }
     
     public List<String> getArpMacs(){
-        List<String> macs = new ArrayList<>();
+        List<String> macs = new ArrayList<String>();
         ArpTableInformation ati = new ArpTableInformationImpl();
         List<ArpTableRecord> arpTable = ati.getArpTable();
         final byte[] incomplete = new byte[]{0,0,0,0,0,0};

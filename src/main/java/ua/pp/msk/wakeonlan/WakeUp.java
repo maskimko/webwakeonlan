@@ -6,9 +6,13 @@
 package ua.pp.msk.wakeonlan;
 
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.naming.NamingException;
+import org.apache.log4j.Logger;
 import ua.pp.msk.wakeonlan.engine.Waker;
 import ua.pp.msk.wakeonlan.exceptions.WakeException;
 import ua.pp.msk.wakeonlan.persistence.Computer;
@@ -19,12 +23,12 @@ import ua.pp.msk.wakeonlan.persistence.DeviceManager;
  * @author maskimko
  */
 @ManagedBean(name="wakeUp")
-@RequestScoped
+@ViewScoped
 public class WakeUp {
     
     private List<String> availableMacAddrs;
     private String ipAddr;
-    private String selectedMac = null;
+    private String selectedMac;
     private Waker wkr;
     private DeviceManager dm;
     private String devIp;
@@ -32,6 +36,7 @@ public class WakeUp {
     private String devUser;
     private String devPassword;
     private String devIdentity;
+    private String type;
     
     
     @PostConstruct
@@ -39,7 +44,11 @@ public class WakeUp {
         ipAddr = "255.255.255.255";
         wkr = new Waker();
         availableMacAddrs = wkr.getArpMacs();
-        dm = DeviceManager.getDeviceManager();
+        try {
+            dm = DeviceManager.getDeviceManager();
+        } catch (NamingException ex) {
+            Logger.getLogger(WakeUp.class.getName()).error("Cannot initialize DeviceManager class " + ex.getMessage(), ex);
+        }
     }
     
     public void setIpAddress(String address){
@@ -65,6 +74,10 @@ public class WakeUp {
     public String doWakeUp(){
         String result = "doesNotSent";
         try {
+            if (selectedMac == null) {
+                Logger.getLogger(this.getClass()).error("user did not select any mac addresses ");
+                return result;
+            }
         wkr.doWakeOnLan(ipAddr, selectedMac);
         result = "sent";
         } catch (WakeException we) {
@@ -92,7 +105,26 @@ public class WakeUp {
     public void setDeviceName(String devName) {
         this.devName = devName;
     }
+
+    public String getDeviceType() {
+        return type;
+    }
+
+    public void setDeviceType(String type) {
+        this.type = type;
+    }
     
     
+    public String addDevice(){
+        Computer comp = new Computer(devIp, selectedMac, devName);
+        comp.setUser(devUser);
+        comp.setPassword(devPassword);
+        comp.setIdentity(devIdentity);
+        comp.setDeviceType(type);
+        dm.addComputer(comp);
+        return "added";
+    }
     
+    
+  
 }

@@ -14,32 +14,50 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        
+
         <h:form id="selector">
+
             <p:layout>
                 <p:layoutUnit position="north">
                     <h:outputText value="Welcome to the wake-on-lan application"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="west">
-            <h:panelGrid columns="2">
-                <h:outputText value="Suggested MACs" />
-                <h:selectOneListbox value="#{wakeUp.macAddress}"  >
-                    <f:selectItems value="#{wakeUp.macAddresses}"/>
-                </h:selectOneListbox>
-                <h:outputText value="Destination IP"/>
-                <h:inputText value="#{wakeUp.ipAddress}"/>
-            </h:panelGrid>
-            <h:commandButton value="Wake it up!" action="#{wakeUp.doWakeUp}"/>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Suggested MACs" />
+                        <p:selectOneListbox id="macSelector" value="#{wakeUp.macAddress}"  >
+                            <f:selectItems value="#{wakeUp.macAddresses}" />
+                        </p:selectOneListbox>
+                        <h:outputText value="Destination IP"/>
+                        <h:inputText value="#{wakeUp.ipAddress}"/>
+                    </h:panelGrid>
+                    <p:commandButton value="Wake it up!" action="#{wakeUp.doWakeUp}"/>
+                    <p:commandButton value="Add" type="button" onclick="PF('addDevDialog').show();"   />
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
-                    <p:outputLabel rendered="#{empty wakeUp.devices}" value="#{messages.emptyDeviceList}"/>
-                    <p:dataGrid columns="4" rows="2" value="#{wakeUp.devices}" var="device" rendered="#{not empty wakeUp.devices}">
-                        <p:panel header="#{device.name}">
-                            <p:outputLabel value="1"/>
-                        </p:panel>
-                    </p:dataGrid>
+                    <p:outputPanel id="deviceList">
+                        <h:outputText  value="No devices has been saved yet"/>
+                        <p:dataGrid columns="4" rows="2" value="#{wakeUp.devices}" var="device" rendered="#{not empty wakeUp.devices}">
+                            <p:panel header="#{device.name}">
+                                <p:outputLabel value="1"/>
+                            </p:panel>
+                        </p:dataGrid>
+                    </p:outputPanel>
+
                 </p:layoutUnit>
-        </p:layout>
+            </p:layout>
         </h:form>
+        <p:dialog header="Add device" widgetVar="addDevDialog" modal="true" height="300"  >
+            <h:form id="addForm">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Device name"/>
+                    <p:inputText value="#{wakeUp.deviceName}"/>
+                    <p:outputLabel value="Device IP"/>
+                    <p:inputText value="#{wakeUp.deviceIp}"/>
+                    <p:outputLabel value="Device MAC"/>
+                    <h:inputText value="#{wakeUp.macAddress}" />
+                    <p:commandButton value="Add" type="button" action="#{wakeUp.addDevice}" onclick="PF('addDevDialog').hide()"  />
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>

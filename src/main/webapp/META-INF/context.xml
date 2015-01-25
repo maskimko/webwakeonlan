@@ -1,2 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/wakeonlan"/>
+<Context antiJARLocking="true" path="/wakeonlan">
+  <Resource auth="Container" defaultAutoCommit="true" driverClassName="org.sqlite.JDBC" maxActive="8" maxIdle="4" name="jdbc/wakeonlanDB" type="javax.sql.DataSource" url="jdbc:sqlite:/home/maskimko/JavaEE_Workspace/wakeonlan.db"/>
+</Context>

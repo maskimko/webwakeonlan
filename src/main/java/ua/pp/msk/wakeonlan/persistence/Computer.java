@@ -6,12 +6,12 @@
 package ua.pp.msk.wakeonlan.persistence;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+//import javax.persistence.Entity;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.GenerationType;
+//import javax.persistence.Id;
+//import javax.persistence.NamedQueries;
+//import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -20,16 +20,16 @@ import javax.validation.constraints.Size;
  *
  * @author maskimko
  */
-@Entity
-@NamedQueries({
-    @NamedQuery(name = "findAllComputers", query = "SELECT c FROM Computer c"),
-    @NamedQuery(name = "findByMac", query = "SELECT c FROM Computer c WHERE c.macAddress LIKE :mac")
-})
-public class Computer implements Serializable {
+//@Entity
+//@NamedQueries({
+//    @NamedQuery(name = "findAllComputers", query = "SELECT c FROM Computer c"),
+//    @NamedQuery(name = "findByMac", query = "SELECT c FROM Computer c WHERE c.macAddress LIKE :mac")
+//})
+public class Computer implements Serializable, Comparable<Computer> {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id = -1L;
     @NotNull
     @Size(min = 7, max = 15, message = "Seems to be ip address has invalid size")
     @Pattern(regexp = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.\n" +
@@ -45,6 +45,7 @@ public class Computer implements Serializable {
     private String user;
     private String password;
     private String identity;
+    private DeviceType dt;
 
     public Computer() {
     }
@@ -63,6 +64,23 @@ public class Computer implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public DeviceType getDeviceType() {
+        return dt;
+    }
+
+    public void setDeviceType(String deviceType){
+        this.dt = DeviceType.OTHER;
+        for (DeviceType dt: DeviceType.values()){
+            if (dt.toString().toLowerCase().equals(deviceType.toLowerCase())){
+                this.dt = dt;
+                break;
+            }
+        }
+    }
+    public void setDeviceType(DeviceType dt) {
+        this.dt = dt;
     }
 
     public String getIpAddress() {
@@ -139,6 +157,13 @@ public class Computer implements Serializable {
     @Override
     public String toString() {
         return "ua.pp.msk.wakeonlan.persistence.Computer[ id=" + id + " ]";
+    }
+
+    @Override
+    public int compareTo(Computer o) {
+      Long thisId = getId();
+      Long foreignId = o.getId();
+      return thisId.compareTo(foreignId);
     }
     
 }
