@@ -12,7 +12,6 @@ import java.sql.Statement;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -99,9 +98,13 @@ public class DeviceManager {
     
     private long getNextId(){
         List<Computer> computers = getComputers();
+        if (computers.isEmpty()){
+         return 0;   
+        }else {
         Collections.sort(computers);
         long id = computers.get(computers.size()-1).getId();
         return ++id;
+        }
     }
 
     public void addComputer(Computer comp) {
@@ -120,7 +123,7 @@ public class DeviceManager {
                    .append("', '").append(comp.getUser())
                    .append("', '").append(comp.getPassword())
                    .append("', '").append(comp.getIdentity())
-                   .append("', '").append(comp.getDeviceType().toString());
+                   .append("', '").append(comp.getDeviceType().toString()).append("')");
            stmt.executeUpdate(sb.toString());
     } catch (SQLException sex) {
            Logger.getLogger(this.getClass()).error("Cannot communicate to the database", sex);

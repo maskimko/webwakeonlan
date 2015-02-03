@@ -5,6 +5,7 @@
  */
 package ua.pp.msk.wakeonlan;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import ua.pp.msk.wakeonlan.engine.Waker;
 import ua.pp.msk.wakeonlan.exceptions.WakeException;
 import ua.pp.msk.wakeonlan.persistence.Computer;
 import ua.pp.msk.wakeonlan.persistence.DeviceManager;
+import ua.pp.msk.wakeonlan.persistence.DeviceType;
 
 /**
  *
@@ -108,6 +110,14 @@ public class WakeUp {
 
     public String getDeviceType() {
         return type;
+    }
+    
+    public List<String> getDeviceTypes(){
+        List<String> types = new ArrayList<String>();
+        for (DeviceType t : DeviceType.values() ){
+            types.add(t.getTypeName());
+        }
+        return types;
     }
 
     public void setDeviceType(String type) {

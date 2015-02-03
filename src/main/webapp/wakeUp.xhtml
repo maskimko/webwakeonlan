@@ -16,7 +16,7 @@ and open the template in the editor.
     <h:body>
 
         <h:form id="selector">
-
+            <p:growl id="addInfo" showDetail="true"/>
             <p:layout>
                 <p:layoutUnit position="north">
                     <h:outputText value="Welcome to the wake-on-lan application"/>
@@ -55,7 +55,12 @@ and open the template in the editor.
                     <p:inputText value="#{wakeUp.deviceIp}"/>
                     <p:outputLabel value="Device MAC"/>
                     <h:inputText value="#{wakeUp.macAddress}" />
-                    <p:commandButton value="Add" type="button" action="#{wakeUp.addDevice}" onclick="PF('addDevDialog').hide()"  />
+                    <p:outputLabel value="Device Type"/>
+                    <p:selectOneMenu  value="#{wakeUp.deviceType}" >
+                        <f:selectItems value="#{wakeUp.deviceTypes}"/>
+                    </p:selectOneMenu>
+                    <p:remoteCommand name="addDevice" update=":selector:addInfo" actionListener="#{wakeUp.addDevice}" oncomplete="PF('addDevDialog').hide()" />
+                    <p:commandButton value="Add" type="button"  onclick="addDevice()" icon="ui-icon-plusthick" />
                 </p:panelGrid>
             </h:form>
         </p:dialog>
