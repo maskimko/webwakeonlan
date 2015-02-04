@@ -44,6 +44,9 @@ public class Computer implements Serializable, Comparable<Computer> {
     private String name;
     private String user;
     private String password;
+    /**
+     * SSH key identity (usually id_rsa.pub)
+     */
     private String identity;
     private DeviceType dt;
 
