@@ -23,8 +23,9 @@ import ua.pp.msk.wakeonlan.exceptions.WakeException;
  * @author maskimko
  */
 public class Waker {
-    public void doWakeOnLan(String address, String mac) throws WakeException{
-        WakeOnLan wol = new WakeOnLan();        
+
+    public void doWakeOnLan(String address, String mac) throws WakeException {
+        WakeOnLan wol = new WakeOnLan();
         try {
             InetAddress ip = InetAddress.getByName(address);
             wol.wakeOnLan(ip, mac);
@@ -35,20 +36,39 @@ public class Waker {
             Logger.getLogger(Waker.class.getName()).error("Input/Output error", ex);
             throw new WakeException("Input/Output error", ex);
         }
-        
+
     }
-    
-    public List<String> getArpMacs(){
-        List<String> macs = new ArrayList<String>();
+
+    private List<ArpTableRecord> getArpTableEntries() {
         ArpTableInformation ati = new ArpTableInformationImpl();
         List<ArpTableRecord> arpTable = ati.getArpTable();
-        final byte[] incomplete = new byte[]{0,0,0,0,0,0};
-        for (ArpTableRecord atr: arpTable) {
+        return arpTable;
+    }
+
+    public List<String> getArpMacs() {
+        List<String> macs = new ArrayList<String>();
+        List<ArpTableRecord> arpTable = getArpTableEntries();
+        final byte[] incomplete = new byte[]{0, 0, 0, 0, 0, 0};
+        for (ArpTableRecord atr : arpTable) {
             byte[] hwAddress = atr.getHwAddress();
             if (!Arrays.equals(hwAddress, incomplete)) {
                 macs.add(Converter.macToString(hwAddress));
             }
         }
         return macs;
+    }
+
+    public InetAddress getIp(String mac) {
+        List<ArpTableRecord> arpTableEntries = getArpTableEntries();
+               final byte[] incomplete = new byte[]{0, 0, 0, 0, 0, 0};
+        for (ArpTableRecord atr : arpTableEntries) {
+            byte[] hwAddress = atr.getHwAddress();
+            if (!Arrays.equals(hwAddress, incomplete)) {
+                if (mac.equals(Converter.macToString(hwAddress))) {
+                    return atr.getInetAddress();
+                }
+            }
+        }
+        return null;
     }
 }

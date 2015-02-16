@@ -24,7 +24,8 @@ and open the template in the editor.
                 <p:layoutUnit position="west">
                     <h:panelGrid columns="2">
                         <h:outputText value="Suggested MACs" />
-                        <p:selectOneListbox id="macSelector" value="#{wakeUp.macAddress}"  >
+                        <p:selectOneListbox id="macSelector" value="#{wakeUp.macAddress}" >
+                            <p:ajax listener="#{wakeUp.onItemSelect}" update=":addForm"/>
                             <f:selectItems value="#{wakeUp.macAddresses}" />
                         </p:selectOneListbox>
                         <h:outputText value="Destination IP"/>
@@ -52,15 +53,15 @@ and open the template in the editor.
                     <p:outputLabel value="Device name"/>
                     <p:inputText value="#{wakeUp.deviceName}"/>
                     <p:outputLabel value="Device IP"/>
-                    <p:inputText value="#{wakeUp.deviceIp}"/>
+                    <p:inputText value="#{wakeUp.deviceIp}" id="devIp"/>
                     <p:outputLabel value="Device MAC"/>
-                    <h:inputText value="#{wakeUp.macAddress}" />
+                    <h:inputText value="#{wakeUp.macAddress}" id="devMac" />
                     <p:outputLabel value="Device Type"/>
                     <p:selectOneMenu  value="#{wakeUp.deviceType}" >
                         <f:selectItems value="#{wakeUp.deviceTypes}"/>
                     </p:selectOneMenu>
                     <p:remoteCommand name="addDevice" update=":selector:addInfo" actionListener="#{wakeUp.addDevice}" oncomplete="PF('addDevDialog').hide()" />
-                    <p:commandButton value="Add" type="button"  onclick="addDevice()" icon="ui-icon-plusthick" />
+                    <p:commandButton value="Add" type="button"  onclick="addDevice()" icon="ui-icon-plusthick" update=":selector:deviceList"/>
                 </p:panelGrid>
             </h:form>
         </p:dialog>

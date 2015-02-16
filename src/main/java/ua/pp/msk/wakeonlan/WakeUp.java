@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.naming.NamingException;
 import org.apache.log4j.Logger;
+import org.primefaces.event.SelectEvent;
 import ua.pp.msk.wakeonlan.engine.Waker;
 import ua.pp.msk.wakeonlan.exceptions.WakeException;
 import ua.pp.msk.wakeonlan.persistence.Computer;
@@ -135,6 +136,10 @@ public class WakeUp {
         return "added";
     }
     
-    
+    public void onItemSelect(){
+        Logger.getLogger(this.getClass()).debug(this.selectedMac + " has been selected");
+        this.devIp = wkr.getIp(this.selectedMac).getHostAddress();
+        this.devName = this.devIp;
+    }
   
 }

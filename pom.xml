@@ -45,6 +45,18 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>edem</groupId>
+            <artifactId>ssh</artifactId>
+            <version>0.1.1-temp</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.10</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>

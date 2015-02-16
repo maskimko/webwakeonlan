@@ -5,21 +5,31 @@
  */
 package up.pp.msk.ssh;
 
+
 import java.net.InetSocketAddress;
-import ua.pp.msk.hostinfo.ExecCommand;
-import ua.pp.msk.hostinfo.ExecCommandImpl;
+import java.net.UnknownHostException;
+import org.slf4j.LoggerFactory;
+import ua.pp.msk.edem.ssh.DeviceInfo;
+import ua.pp.msk.edem.ssh.DeviceInfoImpl;
+
 
 /**
  *
  * @author maskimko
  */
 public class SshManager {
-    private ExecCommand ex;
+    
     
     
     public DeviceInfo getDeviceInfo(InetSocketAddress host, String user, String password){
-        //TODO implement it. 
-        return null;
+        DeviceInfo di = null;
+        try {
+            //TODO rewrite type safely
+             di = new DeviceInfoImpl(host.getHostString(), host.getPort(), user, password);
+        } catch (UnknownHostException ex) {
+            LoggerFactory.getLogger(SshManager.class.getName()).error("Cannot get device information", ex);
+        }
+        return di;
     }
     
 }
